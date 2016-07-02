@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide;
 
 public class Splash extends AppCompatActivity {
     ImageView l1;
-    final int splash_length=10090;
+    final int splash_length=2850;
     TextView msg;
     Typeface typeface;
 
@@ -32,7 +32,7 @@ public class Splash extends AppCompatActivity {
         android.os.Handler handler = new android.os.Handler();
         handler.postDelayed(new Runnable() {
             public void run() {
-               Intent intent=new Intent(Splash.this,Weather.class);
+               Intent intent=new Intent(Splash.this,Selection.class);
                 startActivity(intent);
 
             }

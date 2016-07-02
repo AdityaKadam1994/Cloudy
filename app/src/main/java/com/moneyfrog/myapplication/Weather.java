@@ -1,5 +1,7 @@
 package com.moneyfrog.myapplication;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +23,10 @@ public class Weather extends AppCompatActivity {
     ImageView imageView;
     Button button;
     String string,stream;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+    String prefs="prefs";
+    String setcity;
 
 
     @Override
@@ -42,6 +48,11 @@ public class Weather extends AppCompatActivity {
         button.setTypeface(typeface);
         cont.setTypeface(typeface);
 
+        sharedPreferences=getSharedPreferences(prefs, Context.MODE_PRIVATE);
+        setcity = (sharedPreferences.getString("city", ""));
+        editor=sharedPreferences.edit();
+        editor.apply();
+
 
         /*Glide
                 .with(getApplicationContext())
@@ -61,6 +72,13 @@ public class Weather extends AppCompatActivity {
                 new ProcessJSON().execute(string);
             }
         });
+
+
+
+
+
+
+
     }
     private class ProcessJSON extends AsyncTask<String,Void,String> {
 
