@@ -3,6 +3,7 @@ package com.moneyfrog.myapplication;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -52,6 +53,7 @@ public class Weather extends AppCompatActivity {
         setcity = (sharedPreferences.getString("city", ""));
         editor=sharedPreferences.edit();
         editor.apply();
+        System.out.println(setcity);
 
 
         /*Glide
@@ -68,8 +70,12 @@ public class Weather extends AppCompatActivity {
                 weathercond.setText("");
                 tv.setText("");
                 imageView.setImageDrawable(getDrawable(R.drawable.na));
-                string = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D\"Mumbai%2C%20MH\")%20and%20u%3D%27c%27&format=json";
-                new ProcessJSON().execute(string);
+               // string = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D\"Mumbai%2C%20MH\")%20and%20u%3D%27c%27&format=json";
+                String yql= String.format("select * from weather.forecast where woeid in (select woeid from geo.places(1) where text=\"%setcity\") and u='c'");
+
+                String endpoints=String.format("https://query.yahooapis.com/v1/public/yql?q=%s&format=json", Uri.encode(yql));
+                System.out.print(endpoints);
+                new ProcessJSON().execute(endpoints);
             }
         });
 
