@@ -55,6 +55,8 @@ public class Weather extends AppCompatActivity {
                 temperature.setText("");
                 cont.setText("");
                 weathercond.setText("");
+                tv.setText("");
+                imageView.setImageDrawable(getDrawable(R.drawable.na));
                 string = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D\"Mumbai%2C%20MH\")%20and%20u%3D%27c%27&format=json";
                 new ProcessJSON().execute(string);
             }
@@ -109,14 +111,16 @@ public class Weather extends AppCompatActivity {
                 System.out.println(resourceId);
                //JSONObject forecast=item.getJSONObject("forecast");
                JSONArray forecast=item.getJSONArray("forecast");
-                for (int i=0;i<forecast.length();i++){
+               // int j=forecast.length();
+                //j=4;
+                for (int i=1;i<4;i++){
                     JSONObject newcode=forecast.getJSONObject(i);
                     String mycode=newcode.getString("code");
                     JSONObject newdate=forecast.getJSONObject(i);
                     String mydate=newdate.getString("date");
                     System.out.println("forecast"+mycode);
-                    //System.out.println("forecast"+mydate);
-                   tv.setText(mycode);
+                    System.out.println("forecast"+mydate);
+                   tv.setText(mydate);
 
                 }
 
