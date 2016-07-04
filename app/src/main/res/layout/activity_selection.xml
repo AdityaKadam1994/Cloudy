@@ -10,12 +10,12 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.moneyfrog.myapplication.Selection"
-    android:background="@color/GradientBlue"
+    android:background="@drawable/bg2"
 
     >
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/getcity"
@@ -24,11 +24,14 @@
         android:layout_marginTop="107dp"
         android:hint="Enter name of city"
         android:singleLine="true"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+
         />
 
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/getcountry"
@@ -36,12 +39,16 @@
         android:singleLine="true"
         android:layout_below="@+id/getcity"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="31dp" />
+        android:layout_marginTop="31dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+
+        />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Set City"
+        android:text="Set Info"
         android:id="@+id/getweather"
         android:layout_below="@+id/getcountry"
         android:layout_centerHorizontal="true"

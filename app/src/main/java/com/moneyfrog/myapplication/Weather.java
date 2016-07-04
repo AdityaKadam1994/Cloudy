@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -34,8 +36,10 @@ public class Weather extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     String prefs="prefs";
-    String setcity,getcity,endpoints;
-
+    String setcity,getcity,endpoints,setcountry,getcountry;
+    int length=200;
+    NetworkInfo networkInfo;
+    ConnectivityManager connectivityManager;
 
 
     @Override
@@ -56,14 +60,17 @@ public class Weather extends AppCompatActivity {
         weathercond.setTypeface(typeface);
         loc.setTypeface(typeface);
         button.setTypeface(typeface);
+        change.setTypeface(typeface);
         cont.setTypeface(typeface);
 
         sharedPreferences = getSharedPreferences(prefs, Context.MODE_PRIVATE);
         setcity = (sharedPreferences.getString("city", ""));
+        setcountry=(sharedPreferences.getString("country",""));
         editor = sharedPreferences.edit();
         editor.apply();
         System.out.println(setcity);
-
+        connectivityManager = (ConnectivityManager) getSystemService(this.CONNECTIVITY_SERVICE);
+        networkInfo = connectivityManager.getActiveNetworkInfo();
 
         /*Glide
                 .with(getApplicationContext())
@@ -82,19 +89,20 @@ public class Weather extends AppCompatActivity {
                 tv.setText("");
                 imageView.setImageResource(R.drawable.na);
                 // imageView.setImageDrawable(getDrawable(R.drawable.na));
-                getcity = String.format(""+setcity+"");
+                getcity = String.format(setcity);
                 System.out.println(getcity);
-                // string = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D\"Mumbai%2C%20MH\")%20and%20u%3D%27c%27&format=json";
-                //  String yql= String.format("select * from weather.forecast where woeid in (select woeid from geo.places(1) where text=\"Mumbai\") and u='c'");
-               // String yql= String.format("select * from weather.forecast where woeid in (select woeid from geo.places(1) where text=\"London\") and u='c'");
-               // String yql = String.format("select * from weather.forecast where woeid in (select woeid from geo.places(1) where text=\" "+    getcity)+"\")"+"and u='c'";
-                String yql=String.format("select * from weather.forecast where woeid in (select woeid from geo.places(1) where text=\"nome, ak\")and u='c'");
+                getcountry=String.format(setcountry);
+
+
+                String yql = String.format("select * from weather.forecast where woeid in (select woeid from geo.places(1) where text=\" "+    getcity+ ","+getcountry)+"\")"+"and u='c'";
+
                 System.out.println(yql);
 
                 endpoints = String.format("https://query.yahooapis.com/v1/public/yql?q=%s&format=json", Uri.encode(yql));
                 System.out.print(endpoints);
 
                 new ProcessJSON().execute(endpoints);
+
             }
         });
 
@@ -113,6 +121,33 @@ public class Weather extends AppCompatActivity {
             }
         });
 
+        android.os.Handler handler = new android.os.Handler();
+
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                if (networkInfo!=null&&networkInfo.isConnected()){
+
+
+
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(),"No internet connection",Toast.LENGTH_SHORT).show();
+                    Intent i=new Intent(Weather.this,Blank.class);
+                    startActivity(i);
+                }
+
+            }
+        },length);
+
+
+
+
+
+
+
+
+
 
     }
     private class ProcessJSON extends AsyncTask<String,Void,String> {
@@ -128,6 +163,8 @@ public class Weather extends AppCompatActivity {
             stream = hh.GetHTTPData(string);
             System.out.println("query :" + stream);
             return stream;
+
+
 
 
         }
@@ -198,6 +235,9 @@ public class Weather extends AppCompatActivity {
 
 
             }
+
+
+
 
             public void onBackPressed(){
 
