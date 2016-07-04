@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class Selection extends AppCompatActivity {
         EditText get_city;
@@ -38,12 +39,19 @@ public class Selection extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                editor=sharedPreferences.edit();
-                city=get_city.getText().toString();
-                editor.putString("city",city);
-                editor.apply();
-                Intent intent= new Intent(Selection.this,Weather.class);
-                startActivity(intent);
+                if(get_city.getText().toString().isEmpty()){
+
+                    Toast.makeText(getApplicationContext(),"Please Enter city name",Toast.LENGTH_LONG).show();
+                }
+                else {
+
+                    editor = sharedPreferences.edit();
+                    city = get_city.getText().toString();
+                    editor.putString("city", city);
+                    editor.apply();
+                    Intent intent = new Intent(Selection.this, Weather.class);
+                    startActivity(intent);
+                }
             }
 
 

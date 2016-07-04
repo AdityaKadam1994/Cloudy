@@ -1,16 +1,20 @@
 package com.moneyfrog.myapplication;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -25,12 +29,12 @@ public class Weather extends AppCompatActivity {
     Typeface typeface;
     TextView temperature,weathercond,loc,cont,tv;
     ImageView imageView;
-    Button button;
+    Button button,change;
     String string,stream;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     String prefs="prefs";
-    String setcity,getcity;
+    String setcity,getcity,endpoints;
 
 
 
@@ -40,6 +44,7 @@ public class Weather extends AppCompatActivity {
         setContentView(R.layout.activity_weather);
 
         typeface = Typeface.createFromAsset(getAssets(),"limo.ttf");
+        change=(Button)findViewById(R.id.change_city);
         temperature = (TextView) findViewById(R.id.temptv);
         weathercond = (TextView) findViewById(R.id.weathertv);
         loc = (TextView) findViewById(R.id.loctv);
@@ -67,6 +72,7 @@ public class Weather extends AppCompatActivity {
 
 
         button.setOnClickListener(new View.OnClickListener() {
+            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View view) {
                 loc.setText("");
@@ -74,17 +80,32 @@ public class Weather extends AppCompatActivity {
                 cont.setText("");
                 weathercond.setText("");
                 tv.setText("");
-                imageView.setImageDrawable(getDrawable(R.drawable.na));
+                imageView.setImageResource(R.drawable.na);
+               // imageView.setImageDrawable(getDrawable(R.drawable.na));
                 getcity=String.format(setcity);
                // string = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D\"Mumbai%2C%20MH\")%20and%20u%3D%27c%27&format=json";
               //  String yql= String.format("select * from weather.forecast where woeid in (select woeid from geo.places(1) where text=\"Mumbai\") and u='c'");
-                String yql= String.format("select * from weather.forecast where woeid in (select woeid from geo.places(1) where text=\"Mumbai\") and u='c'");
+                String yql= String.format("select * from weather.forecast where woeid in (select woeid from geo.places(1) where text=\"Brisbane\") and u='c'");
 
-                String endpoints=String.format("https://query.yahooapis.com/v1/public/yql?q=%s&format=json", Uri.encode(yql));
+                endpoints=String.format("https://query.yahooapis.com/v1/public/yql?q=%s&format=json", Uri.encode(yql));
                 System.out.print(endpoints);
 
-
                 new ProcessJSON().execute(endpoints);
+            }
+        });
+
+        change.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sharedPreferences=getSharedPreferences(prefs, Context.MODE_PRIVATE);
+                editor=sharedPreferences.edit();
+                editor.clear();
+                editor.apply();
+
+
+                Intent i= new Intent(Weather.this,Selection.class);
+                startActivity(i);
+
             }
         });
 
@@ -98,6 +119,9 @@ public class Weather extends AppCompatActivity {
     private class ProcessJSON extends AsyncTask<String,Void,String> {
 
         protected String doInBackground(String... strings) {
+
+
+
             stream = null;
             String string = strings[0];
             System.out.println(string);
@@ -154,7 +178,7 @@ public class Weather extends AppCompatActivity {
                     String mydate=newdate.getString("date");
                     System.out.println("forecast"+mycode);
                     System.out.println("forecast"+mydate);
-                   tv.setText(mydate);
+                    tv.setText(mydate);
 
                 }
 
@@ -168,12 +192,16 @@ public class Weather extends AppCompatActivity {
                 weathercond.setText(cond);
 
             }catch (Exception e){
-                System.out.println(e);
+                Toast.makeText(getApplicationContext(),"No weather found",Toast.LENGTH_LONG).show();
             }
         }
 
             }
 
+
+            }
+
+            public void onBackPressed(){
 
             }
 
