@@ -43,12 +43,12 @@ public class Weather extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather);
 
-        typeface = Typeface.createFromAsset(getAssets(),"limo.ttf");
-        change=(Button)findViewById(R.id.change_city);
+        typeface = Typeface.createFromAsset(getAssets(), "limo.ttf");
+        change = (Button) findViewById(R.id.change_city);
         temperature = (TextView) findViewById(R.id.temptv);
         weathercond = (TextView) findViewById(R.id.weathertv);
         loc = (TextView) findViewById(R.id.loctv);
-        tv=(TextView)findViewById(R.id.textView);
+        tv = (TextView) findViewById(R.id.textView);
         imageView = (ImageView) findViewById(R.id.weathericon);
         button = (Button) findViewById(R.id.getinfo);
         cont = (TextView) findViewById(R.id.cont);
@@ -58,9 +58,9 @@ public class Weather extends AppCompatActivity {
         button.setTypeface(typeface);
         cont.setTypeface(typeface);
 
-        sharedPreferences=getSharedPreferences(prefs, Context.MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(prefs, Context.MODE_PRIVATE);
         setcity = (sharedPreferences.getString("city", ""));
-        editor=sharedPreferences.edit();
+        editor = sharedPreferences.edit();
         editor.apply();
         System.out.println(setcity);
 
@@ -81,13 +81,17 @@ public class Weather extends AppCompatActivity {
                 weathercond.setText("");
                 tv.setText("");
                 imageView.setImageResource(R.drawable.na);
-               // imageView.setImageDrawable(getDrawable(R.drawable.na));
-                getcity=String.format(setcity);
-               // string = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D\"Mumbai%2C%20MH\")%20and%20u%3D%27c%27&format=json";
-              //  String yql= String.format("select * from weather.forecast where woeid in (select woeid from geo.places(1) where text=\"Mumbai\") and u='c'");
-                String yql= String.format("select * from weather.forecast where woeid in (select woeid from geo.places(1) where text=\"Brisbane\") and u='c'");
+                // imageView.setImageDrawable(getDrawable(R.drawable.na));
+                getcity = String.format(""+setcity+"");
+                System.out.println(getcity);
+                // string = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D\"Mumbai%2C%20MH\")%20and%20u%3D%27c%27&format=json";
+                //  String yql= String.format("select * from weather.forecast where woeid in (select woeid from geo.places(1) where text=\"Mumbai\") and u='c'");
+               // String yql= String.format("select * from weather.forecast where woeid in (select woeid from geo.places(1) where text=\"London\") and u='c'");
+               // String yql = String.format("select * from weather.forecast where woeid in (select woeid from geo.places(1) where text=\" "+    getcity)+"\")"+"and u='c'";
+                String yql=String.format("select * from weather.forecast where woeid in (select woeid from geo.places(1) where text=\"nome, ak\")and u='c'");
+                System.out.println(yql);
 
-                endpoints=String.format("https://query.yahooapis.com/v1/public/yql?q=%s&format=json", Uri.encode(yql));
+                endpoints = String.format("https://query.yahooapis.com/v1/public/yql?q=%s&format=json", Uri.encode(yql));
                 System.out.print(endpoints);
 
                 new ProcessJSON().execute(endpoints);
@@ -97,22 +101,17 @@ public class Weather extends AppCompatActivity {
         change.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sharedPreferences=getSharedPreferences(prefs, Context.MODE_PRIVATE);
-                editor=sharedPreferences.edit();
+                sharedPreferences = getSharedPreferences(prefs, Context.MODE_PRIVATE);
+                editor = sharedPreferences.edit();
                 editor.clear();
                 editor.apply();
 
 
-                Intent i= new Intent(Weather.this,Selection.class);
+                Intent i = new Intent(Weather.this, Selection.class);
                 startActivity(i);
 
             }
         });
-
-
-
-
-
 
 
     }
@@ -169,8 +168,7 @@ public class Weather extends AppCompatActivity {
                 System.out.println(resourceId);
                //JSONObject forecast=item.getJSONObject("forecast");
                JSONArray forecast=item.getJSONArray("forecast");
-               // int j=forecast.length();
-                //j=4;
+
                 for (int i=1;i<4;i++){
                     JSONObject newcode=forecast.getJSONObject(i);
                     String mycode=newcode.getString("code");
