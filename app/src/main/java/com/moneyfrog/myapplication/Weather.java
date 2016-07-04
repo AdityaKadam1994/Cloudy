@@ -17,6 +17,9 @@ import com.bumptech.glide.Glide;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.net.URL;
+import java.net.URLEncoder;
+
 public class Weather extends AppCompatActivity {
 
     Typeface typeface;
@@ -27,7 +30,8 @@ public class Weather extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     String prefs="prefs";
-    String setcity;
+    String setcity,getcity;
+
 
 
     @Override
@@ -61,6 +65,7 @@ public class Weather extends AppCompatActivity {
                 .load(R.drawable.raincloud)
                 .into(imageView);*/
 
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -70,11 +75,15 @@ public class Weather extends AppCompatActivity {
                 weathercond.setText("");
                 tv.setText("");
                 imageView.setImageDrawable(getDrawable(R.drawable.na));
+                getcity=String.format(setcity);
                // string = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D\"Mumbai%2C%20MH\")%20and%20u%3D%27c%27&format=json";
-                String yql= String.format("select * from weather.forecast where woeid in (select woeid from geo.places(1) where text=\"%setcity\") and u='c'");
+              //  String yql= String.format("select * from weather.forecast where woeid in (select woeid from geo.places(1) where text=\"Mumbai\") and u='c'");
+                String yql= String.format("select * from weather.forecast where woeid in (select woeid from geo.places(1) where text=\"Mumbai\") and u='c'");
 
                 String endpoints=String.format("https://query.yahooapis.com/v1/public/yql?q=%s&format=json", Uri.encode(yql));
                 System.out.print(endpoints);
+
+
                 new ProcessJSON().execute(endpoints);
             }
         });
@@ -96,6 +105,7 @@ public class Weather extends AppCompatActivity {
             stream = hh.GetHTTPData(string);
             System.out.println("query :" + stream);
             return stream;
+
 
         }
 
