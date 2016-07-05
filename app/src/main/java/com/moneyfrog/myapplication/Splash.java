@@ -53,9 +53,9 @@ public class Splash extends AppCompatActivity {
 
                     sharedPreferences = getSharedPreferences(prefs, MODE_PRIVATE);
                     String storedcity = (sharedPreferences.getString("city", ""));
-                    String storedcountry = (sharedPreferences.getString("country", ""));
 
-                    if (!storedcity.equalsIgnoreCase("") && !storedcountry.equalsIgnoreCase("")) {
+
+                    if (!storedcity.equalsIgnoreCase("")) {
                         intent = new Intent(Splash.this, Weather.class);
                         startActivity(intent);
                         finish();

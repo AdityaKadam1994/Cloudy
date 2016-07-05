@@ -29,9 +29,9 @@ import java.net.URLEncoder;
 public class Weather extends AppCompatActivity {
 
     Typeface typeface;
-    TextView temperature,weathercond,loc,cont,tv;
+    TextView temperature,weathercond,loc,cont;
     ImageView imageView;
-    Button button,change;
+    Button change;
     String string,stream;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
@@ -52,14 +52,12 @@ public class Weather extends AppCompatActivity {
         temperature = (TextView) findViewById(R.id.temptv);
         weathercond = (TextView) findViewById(R.id.weathertv);
         loc = (TextView) findViewById(R.id.loctv);
-        tv = (TextView) findViewById(R.id.textView);
         imageView = (ImageView) findViewById(R.id.weathericon);
-        button = (Button) findViewById(R.id.getinfo);
+
         cont = (TextView) findViewById(R.id.cont);
         temperature.setTypeface(typeface);
         weathercond.setTypeface(typeface);
         loc.setTypeface(typeface);
-        button.setTypeface(typeface);
         change.setTypeface(typeface);
         cont.setTypeface(typeface);
 
@@ -76,35 +74,23 @@ public class Weather extends AppCompatActivity {
                 .with(getApplicationContext())
                 .load(R.drawable.raincloud)
                 .into(imageView);*/
+        loc.setText("");
+        temperature.setText("");
+        cont.setText("");
+        weathercond.setText("");
+        imageView.setImageResource(R.drawable.na);
+        getcity = String.format(setcity);
+        System.out.println(getcity);
+        getcountry=String.format(setcountry);
+        String yql = String.format("select * from weather.forecast where woeid in (select woeid from geo.places(1) where text=\" "+    getcity+ ","+getcountry)+"\")"+"and u='c'";
 
+        System.out.println(yql);
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-            @Override
-            public void onClick(View view) {
-                loc.setText("");
-                temperature.setText("");
-                cont.setText("");
-                weathercond.setText("");
-                tv.setText("");
-                imageView.setImageResource(R.drawable.na);
-                // imageView.setImageDrawable(getDrawable(R.drawable.na));
-                getcity = String.format(setcity);
-                System.out.println(getcity);
-                getcountry=String.format(setcountry);
+        endpoints = String.format("https://query.yahooapis.com/v1/public/yql?q=%s&format=json", Uri.encode(yql));
+        System.out.print(endpoints);
 
+        // imageView.setImageDrawable(getDrawable(R.drawable.na));
 
-                String yql = String.format("select * from weather.forecast where woeid in (select woeid from geo.places(1) where text=\" "+    getcity+ ","+getcountry)+"\")"+"and u='c'";
-
-                System.out.println(yql);
-
-                endpoints = String.format("https://query.yahooapis.com/v1/public/yql?q=%s&format=json", Uri.encode(yql));
-                System.out.print(endpoints);
-
-                new ProcessJSON().execute(endpoints);
-
-            }
-        });
 
         change.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,7 +129,7 @@ public class Weather extends AppCompatActivity {
 
 
 
-
+        new ProcessJSON().execute(endpoints);
 
 
 
@@ -167,12 +153,21 @@ public class Weather extends AppCompatActivity {
 
 
 
+
+
+
+
+
         }
 
 
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
+
+
+
+
 
 
         if(stream !=null) {
@@ -213,7 +208,6 @@ public class Weather extends AppCompatActivity {
                     String mydate=newdate.getString("date");
                     System.out.println("forecast"+mycode);
                     System.out.println("forecast"+mydate);
-                    tv.setText(mydate);
 
                 }
 
@@ -228,6 +222,11 @@ public class Weather extends AppCompatActivity {
 
             }catch (Exception e){
                 Toast.makeText(getApplicationContext(),"No weather found",Toast.LENGTH_LONG).show();
+               loc.setText("Location,");
+                temperature.setText("Temprature");
+                cont.setText("Country");
+                weathercond.setText("Weather");
+
             }
         }
 
