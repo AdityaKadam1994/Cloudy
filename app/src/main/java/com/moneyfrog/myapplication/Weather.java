@@ -1,6 +1,7 @@
 package com.moneyfrog.myapplication;
 
 import android.annotation.TargetApi;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,11 +11,17 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.provider.Contacts;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +32,9 @@ import org.json.JSONObject;
 
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class Weather extends AppCompatActivity {
 
@@ -40,13 +50,15 @@ public class Weather extends AppCompatActivity {
     int length=200;
     NetworkInfo networkInfo;
     ConnectivityManager connectivityManager;
+    ListAdapter listAdapter;
+    ListView lv;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather);
-
+        lv=(ListView)findViewById(R.id.details);
         typeface = Typeface.createFromAsset(getAssets(), "limo.ttf");
         change = (Button) findViewById(R.id.change_city);
         temperature = (TextView) findViewById(R.id.temptv);
@@ -82,12 +94,21 @@ public class Weather extends AppCompatActivity {
         getcity = String.format(setcity);
         System.out.println(getcity);
         getcountry=String.format(setcountry);
-        String yql = String.format("select * from weather.forecast where woeid in (select woeid from geo.places(1) where text=\" "+    getcity+ ","+getcountry)+"\")"+"and u='c'";
 
-        System.out.println(yql);
 
-        endpoints = String.format("https://query.yahooapis.com/v1/public/yql?q=%s&format=json", Uri.encode(yql));
-        System.out.print(endpoints);
+
+
+                    String yql = String.format("select * from weather.forecast where woeid in (select woeid from geo.places(1) where text=\" "+getcity+","+getcountry)+"\")"+"and u='c'";
+
+                    System.out.println(yql);
+
+                    endpoints = String.format("https://query.yahooapis.com/v1/public/yql?q=%s&format=json", Uri.encode(yql));
+                    System.out.print(endpoints);
+                    new ProcessJSON().execute(endpoints);
+
+
+
+
 
         // imageView.setImageDrawable(getDrawable(R.drawable.na));
 
@@ -129,7 +150,7 @@ public class Weather extends AppCompatActivity {
 
 
 
-        new ProcessJSON().execute(endpoints);
+
 
 
 
@@ -139,7 +160,6 @@ public class Weather extends AppCompatActivity {
     private class ProcessJSON extends AsyncTask<String,Void,String> {
 
         protected String doInBackground(String... strings) {
-
 
 
             stream = null;
@@ -199,7 +219,9 @@ public class Weather extends AppCompatActivity {
                 int resourceId = getResources().getIdentifier("drawable/a"+code, null, getPackageName());
                 System.out.println(resourceId);
                //JSONObject forecast=item.getJSONObject("forecast");
-               JSONArray forecast=item.getJSONArray("forecast");
+              JSONArray forecast=item.getJSONArray("forecast");
+
+
 
                 for (int i=1;i<4;i++){
                     JSONObject newcode=forecast.getJSONObject(i);
@@ -210,7 +232,6 @@ public class Weather extends AppCompatActivity {
                     System.out.println("forecast"+mydate);
 
                 }
-
 
 
                 //Setting values to the textviews and Image view
@@ -227,8 +248,12 @@ public class Weather extends AppCompatActivity {
                 cont.setText("Country");
                 weathercond.setText("Weather");
 
+
+
             }
         }
+
+
 
             }
 
