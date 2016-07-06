@@ -1,7 +1,5 @@
 package com.moneyfrog.myapplication;
 
-import android.annotation.TargetApi;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,13 +8,11 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
-import android.provider.Contacts;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
@@ -25,21 +21,17 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.zip.Inflater;
 
 public class Weather extends AppCompatActivity {
 
     Typeface typeface;
-    TextView temperature,weathercond,loc,cont;
+    TextView temperature,weathercond,loc,cont,ldate,lowtemp,htemp,lcond;
     ImageView imageView;
     Button change;
     String string,stream;
@@ -50,8 +42,20 @@ public class Weather extends AppCompatActivity {
     int length=200;
     NetworkInfo networkInfo;
     ConnectivityManager connectivityManager;
-    ListAdapter listAdapter;
+    Inflater inflater;
+
     ListView lv;
+
+    ArrayList<HashMap<String, String>> arraylist=new ArrayList<HashMap<String, String>>();
+
+    ListAdapter adapter;
+
+    private static final String Code = "code";
+    private static final String Cond = "text";
+    private static final String hightemp = "high";
+    private static final String Date = "date";
+
+
 
 
     @Override
@@ -63,8 +67,13 @@ public class Weather extends AppCompatActivity {
         change = (Button) findViewById(R.id.change_city);
         temperature = (TextView) findViewById(R.id.temptv);
         weathercond = (TextView) findViewById(R.id.weathertv);
+      /*  lcond = (TextView) findViewById(R.id.lcond);
+        lowtemp = (TextView) findViewById(R.id.ltemp);
+        htemp = (TextView) findViewById(R.id.htemp);
+       ldate=(TextView)findViewById(R.id.listdate) ;*/
         loc = (TextView) findViewById(R.id.loctv);
         imageView = (ImageView) findViewById(R.id.weathericon);
+
 
         cont = (TextView) findViewById(R.id.cont);
         temperature.setTypeface(typeface);
@@ -72,6 +81,11 @@ public class Weather extends AppCompatActivity {
         loc.setTypeface(typeface);
         change.setTypeface(typeface);
         cont.setTypeface(typeface);
+      /* ldate.setTypeface(typeface);
+        lowtemp.setTypeface(typeface);
+        htemp.setTypeface(typeface);
+        lcond.setTypeface(typeface);*/
+
 
         sharedPreferences = getSharedPreferences(prefs, Context.MODE_PRIVATE);
         setcity = (sharedPreferences.getString("city", ""));
@@ -90,7 +104,10 @@ public class Weather extends AppCompatActivity {
         temperature.setText("");
         cont.setText("");
         weathercond.setText("");
+       // ldate.setText("");
+
         imageView.setImageResource(R.drawable.na);
+
         getcity = String.format(setcity);
         System.out.println(getcity);
         getcountry=String.format(setcountry);
@@ -217,6 +234,7 @@ public class Weather extends AppCompatActivity {
                 String code =condition.getString("code");
                 System.out.println("code"+ code);
                 int resourceId = getResources().getIdentifier("drawable/a"+code, null, getPackageName());
+
                 System.out.println(resourceId);
                //JSONObject forecast=item.getJSONObject("forecast");
               JSONArray forecast=item.getJSONArray("forecast");
@@ -228,10 +246,30 @@ public class Weather extends AppCompatActivity {
                     String mycode=newcode.getString("code");
                     JSONObject newdate=forecast.getJSONObject(i);
                     String mydate=newdate.getString("date");
+                    JSONObject newtext=forecast.getJSONObject(i);
+                    String mytext=newtext.getString("text");
+                    JSONObject newhigh=forecast.getJSONObject(i);
+                    String myhigh=newhigh.getString("high");
                     System.out.println("forecast"+mycode);
                     System.out.println("forecast"+mydate);
+                    System.out.println("forecast"+mytext);
+                    System.out.println("forecast"+myhigh);
+
+                    HashMap<String, String> map = new HashMap<String, String>();
+                    // Retrive JSON Objects
+                    map.put(Code, mycode);
+                    map.put(Date, mydate);
+                    map.put(Cond, mytext);
+                    map.put(hightemp, mydate);
+                    // Set the JSON Objects into the array
+                    arraylist.add(map);
+                    System.out.println(arraylist);
+
+
 
                 }
+
+
 
 
                 //Setting values to the textviews and Image view
@@ -240,6 +278,19 @@ public class Weather extends AppCompatActivity {
                 temperature.setText(temp+"\u2103");
                 cont.setText(country);
                 weathercond.setText(cond);
+
+
+                SimpleAdapter adapter = new SimpleAdapter(getApplicationContext(), arraylist, R.layout.list_item,
+                        new String[] {  Date,Cond,hightemp },
+                        new int[] {  R.id.listdate, R.id.lcond, R.id.htemp});
+
+
+
+
+                lv.setAdapter(adapter);
+
+
+
 
             }catch (Exception e){
                 Toast.makeText(getApplicationContext(),"No weather found",Toast.LENGTH_LONG).show();
@@ -256,6 +307,20 @@ public class Weather extends AppCompatActivity {
 
 
             }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
             }
