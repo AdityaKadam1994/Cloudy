@@ -1,0 +1,150 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/frame_container">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView"
+
+        android:layout_alignParentTop="true">
+
+
+    </ScrollView>
+
+    <!-- Tab bar starts -->
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+
+            android:id="@+id/relativeLayout20"
+            android:visibility="invisible">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/relativeLayout24"
+                android:background="@drawable/bg2">
+
+
+                <ImageView
+                    android:layout_width="125dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/weathericon"
+                    android:src="@drawable/na"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Temperature"
+                    android:id="@+id/temptv"
+                    android:textStyle="bold"
+                    android:layout_below="@+id/loctv"
+                    android:layout_toRightOf="@+id/weathericon"
+                    android:layout_toEndOf="@+id/weathericon"
+                    android:layout_marginTop="5dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Location"
+                    android:id="@+id/loctv"
+                    android:textStyle="bold"
+                    android:layout_marginTop="35dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/weathericon"
+                    android:layout_toEndOf="@+id/weathericon"
+                    android:singleLine="true"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Weather"
+                    android:id="@+id/weathertv"
+                    android:textStyle="bold"
+                    android:textAlignment="center"
+                    android:textColor="#000000"
+                    android:layout_below="@+id/temptv"
+                    android:layout_toRightOf="@+id/weathericon"
+                    android:layout_toEndOf="@+id/weathericon"
+                    android:singleLine="true"
+                    android:layout_marginTop="5dp"
+
+
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Country"
+                    android:id="@+id/cont"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="3dp"
+                    android:layout_alignTop="@+id/loctv"
+                    android:layout_toRightOf="@+id/loctv"
+                    android:layout_toEndOf="@+id/loctv"
+                    android:singleLine="true"
+                    />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Change City"
+                    android:id="@+id/change_city"
+
+                    android:layout_marginTop="30dp"
+                    android:layout_below="@+id/weathericon"
+                    android:layout_centerHorizontal="true" />
+
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Forecast"
+                    android:textStyle="bold"
+                    android:id="@+id/weath_forecast"
+                    android:layout_below="@+id/change_city"
+                    android:layout_marginTop="15dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    />
+            </RelativeLayout>
+
+            <ListView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/details"
+
+                android:layout_below="@+id/relativeLayout24"
+                android:layout_centerHorizontal="true" />
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
