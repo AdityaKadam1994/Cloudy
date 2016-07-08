@@ -47,12 +47,14 @@
 
     <Button
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="38dp"
         android:text="Get Weather"
         android:id="@+id/getweather"
         android:layout_below="@+id/getcountry"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="32dp" />
+        android:layout_marginTop="32dp"
+        android:background="@drawable/button"
+        />
 
     <ImageView
         android:layout_width="wrap_content"
