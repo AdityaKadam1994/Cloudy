@@ -273,7 +273,10 @@ public class Weather extends AppCompatActivity {
                         new String[] {  Date,Cond,hightemp },
                         new int[] {  R.id.listdate, R.id.lcond, R.id.htemp}
 
-                ){
+                )
+
+                //Typeface for list items
+                {
 
                     @Override
                     public View getView(int position, View convertView, ViewGroup parent) {

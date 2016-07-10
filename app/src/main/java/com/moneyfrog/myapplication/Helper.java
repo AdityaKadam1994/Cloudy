@@ -1,8 +1,6 @@
 package com.moneyfrog.myapplication;
 
-/**
- * Created by moneyfrog on 8/7/16.
- */
+
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;

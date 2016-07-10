@@ -14,9 +14,6 @@ android:orientation="vertical"
         android:layout_width="125dp"
         android:layout_height="100dp"
         android:id="@+id/na"
-        android:background="@drawable/na"
-
-
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -34,7 +31,9 @@ android:orientation="vertical"
         android:layout_alignTop="@+id/na"
         android:layout_toRightOf="@+id/na"
         android:layout_toEndOf="@+id/na"
-        android:layout_marginTop="21dp" />
+        android:layout_marginTop="21dp"
+        android:textSize="20sp"
+        />
 
     <TextView
         android:layout_width="wrap_content"
@@ -64,6 +63,8 @@ android:orientation="vertical"
         android:layout_toEndOf="@+id/na"
         android:layout_marginTop="0dp"
         android:textStyle="bold"
+        android:textSize="20sp"
+
 
             />
 
@@ -79,7 +80,10 @@ android:orientation="vertical"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginLeft="45dp"
-        android:layout_marginStart="45dp" />
+        android:layout_marginStart="45dp"
+        android:textSize="20sp"
+
+        />
 
     <TextView
         android:layout_width="wrap_content"
@@ -88,6 +92,7 @@ android:orientation="vertical"
         android:text="Condition"
         android:id="@+id/lcondition"
         android:textStyle="bold"
+        android:textSize="20sp"
 
         android:layout_below="@+id/ltemp"
         android:layout_toRightOf="@+id/na"
